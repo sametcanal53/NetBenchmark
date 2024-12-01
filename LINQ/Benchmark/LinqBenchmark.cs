@@ -7,10 +7,10 @@ using LINQ.Models;
 namespace LINQ.Benchmark
 {
     #region .NET Version
-    //[SimpleJob(BenchmarkDotNet.Jobs.RuntimeMoniker.Net50, baseline: true)]
-    //[SimpleJob(BenchmarkDotNet.Jobs.RuntimeMoniker.Net60)]
-    //[SimpleJob(BenchmarkDotNet.Jobs.RuntimeMoniker.Net70)]
-    //[SimpleJob(BenchmarkDotNet.Jobs.RuntimeMoniker.Net80)]
+    [SimpleJob(BenchmarkDotNet.Jobs.RuntimeMoniker.Net50, baseline: true)]
+    [SimpleJob(BenchmarkDotNet.Jobs.RuntimeMoniker.Net60)]
+    [SimpleJob(BenchmarkDotNet.Jobs.RuntimeMoniker.Net70)]
+    [SimpleJob(BenchmarkDotNet.Jobs.RuntimeMoniker.Net80)]
     [SimpleJob(BenchmarkDotNet.Jobs.RuntimeMoniker.Net90)]
     #endregion
 
@@ -34,7 +34,7 @@ namespace LINQ.Benchmark
     {
         private List<Product> _products = new();
 
-        [Params(1000)]
+        [Params(100, 1_000, 10_000)]
         public int N;
 
         [GlobalSetup]
@@ -46,9 +46,7 @@ namespace LINQ.Benchmark
                 .ToList();
         }
 
-        [Benchmark] public void FirstOrDefault() => _products.FirstOrDefault();
-
-        /*[Benchmark] public void Aggreagate() => _products.Aggregate(0.0, (acc, p) => acc + p.Price);
+        [Benchmark] public void Aggreagate() => _products.Aggregate(0.0, (acc, p) => acc + p.Price);
         [Benchmark] public void All() => _products.All(p => p.Price > 50);
         [Benchmark] public void Any() => _products.Any(p => p.Price > 50);
         [Benchmark] public void Append() => _products.Append(new Product("Product", 10, 10)).ToList();
@@ -98,7 +96,7 @@ namespace LINQ.Benchmark
         [Benchmark] public void ToLookup() => _products.ToLookup(p => p.Price);
         [Benchmark] public void Union() => _products.Union(_products).ToList();
         [Benchmark] public void Where() => _products.Where(p => p.Price > 50).ToList();
-        [Benchmark] public void Zip() => _products.Zip(_products, (p, p1) => p).ToList();*/
+        [Benchmark] public void Zip() => _products.Zip(_products, (p, p1) => p).ToList();
     }
 
 }
